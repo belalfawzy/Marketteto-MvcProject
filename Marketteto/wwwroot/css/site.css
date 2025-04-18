@@ -20,3 +20,43 @@ html {
 body {
   margin-bottom: 60px;
 }
+.product-card {
+    border: none;
+    border-radius: 16px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.product-img {
+    height: 250px;
+    object-fit: cover;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.add-to-cart-btn {
+    background-color: #7c3aed;
+    color: white;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .add-to-cart-btn:hover {
+        background-color: #5b21b6;
+        transform: scale(1.02);
+    }
+
+    .add-to-cart-btn:active {
+        transform: scale(0.98);
+    }
+

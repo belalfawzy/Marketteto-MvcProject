@@ -13,8 +13,8 @@ namespace Marketteto.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var res = await _context.Products.ToListAsync();
-            return View();
+            var res = await _context.Products.Include(i=>i.category).ToListAsync();
+            return View(res);
         }
     }
 }

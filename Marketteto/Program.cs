@@ -1,3 +1,7 @@
+using Marketteto.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
 namespace Marketteto
 {
     public class Program
@@ -8,6 +12,9 @@ namespace Marketteto
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<MarkettetoDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=.;Initial Catalog=MarkettetoDB;Integrated Security=True;Pooling=False;Encrypt=True;Trust Server Certificate=True")));
 
             var app = builder.Build();
 
@@ -24,7 +31,7 @@ namespace Marketteto
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Product}/{action=Index}/{id?}");
 
             app.Run();
         }

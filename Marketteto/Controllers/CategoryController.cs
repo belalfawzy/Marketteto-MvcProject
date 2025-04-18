@@ -14,7 +14,7 @@ namespace Marketteto.Controllers
         public async Task<IActionResult> Index()
         {
             var res = await _context.Categories.ToListAsync();
-            return View();
+            return View(res);
         }
     }
 }

@@ -4,7 +4,10 @@ namespace Marketteto.Models
 {
     public class MarkettetoDbContext : DbContext
     {
-        
+        public MarkettetoDbContext(DbContextOptions<MarkettetoDbContext> options)
+            : base(options)
+        {
+        }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
