@@ -1,4 +1,4 @@
-﻿using Marketteto.Data;
+﻿using Marketteto.Data.Enum;
 
 namespace Marketteto.Models
 {

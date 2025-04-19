@@ -1,4 +1,4 @@
-﻿namespace Marketteto.Data
+﻿namespace Marketteto.Data.Enum
 {
     public enum ProductColor
     {
