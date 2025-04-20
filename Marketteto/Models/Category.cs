@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Marketteto.Data.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace Marketteto.Models
 {
-    public class Category
+    public class Category : IBaseEntity
     {
         public Category()
         {
@@ -13,6 +14,7 @@ namespace Marketteto.Models
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
+
         public List<Product> Products { get; set; }
     }
 }

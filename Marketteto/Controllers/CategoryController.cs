@@ -52,10 +52,9 @@ namespace Marketteto.Controllers
             return View("NotFound");
         }
         [HttpPost]
-        public async Task<IActionResult> Edit([Bind("Name,Description")]Category category)
+        public async Task<IActionResult> Edit(Category category)
         {
-            var id = await _service.GetByIdAsync(category.Id);
-            if (ModelState.IsValid && id != null)
+            if (ModelState.IsValid)
             {
                 await _service.UpdateAysnc(category);
                 return RedirectToAction(nameof(Index));
