@@ -1,0 +1,83 @@
+﻿@model List<ShoppingCardItem>
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <h2 class="mb-4 text-center"><i class="fa fa-shopping-cart"></i> Your Shopping Cart</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            Your cart is empty. <a asp-controller="Product" asp-action="Index">Continue Shopping</a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-12">
+                    <div class="card shadow-sm border-0 rounded-4">
+                        <div class="card-body d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="@item.product.Image" alt="@item.product.Name" class="rounded" style="width: 70px; height: 70px; object-fit: cover;" />
+                                <div>
+                                    <h5 class="mb-1">@item.product.Name</h5>
+                                    <p class="mb-0 text-muted">@item.product.Price.ToString("C")</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2">
+                                <form asp-action="DecreaseQuantity" method="post" class="d-inline">
+                                    <input type="hidden" name="productId" value="@item.product.Id" />
+                                    <a asp-action="RemoveItemFromCard" asp-controller="Order" asp-route-id="@item.product.Id" type="submit"
+                                        class="btn btn-outline-secondary btn-sm">
+                                        <i class="bi bi-dash"></i>
+                                    </a>
+                                </form>
+
+                                <span class="fw-semibold">@item.Amount</span>
+
+                                <form asp-action="IncreaseQuantity" method="post" class="d-inline">
+                                    <input type="hidden" name="productId" value="@item.product.Id" />
+                                    <a asp-action="AddToCard" asp-controller="Order" asp-route-id="@item.product.Id" type="submit" 
+                                    class="btn btn-outline-secondary btn-sm">
+                                        <i class="bi bi-plus"></i>
+                                    </a>
+                                </form>
+                            </div>
+
+                            <div class="text-end">
+                                <div>Subtotal</div>
+                                <div class="fw-bold text-primary">
+                                    @(item.product.Price * item.Amount) EGP
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="mt-5 d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> Continue Shopping
+            </a>
+
+            <div class="fw-bold fs-5">
+                Total: @Model.Sum(i => i.product.Price * i.Amount) EGP
+            </div>
+
+            <div class="text-center w-100 mt-4">
+                <a asp-action="CompleteOrder" asp-controller="Order"
+                   class="btn btn-lg btn-primary px-5 py-3 rounded-pill d-inline-flex align-items-center gap-2 fw-semibold shadow">
+                    <span class="fs-5">Proceed to Checkout</span>
+                    <i class="bi bi-bag-check-fill fs-4"></i>
+                </a>
+            </div>
+        </div>
+    }
+</div>

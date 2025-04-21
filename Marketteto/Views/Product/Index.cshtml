@@ -31,9 +31,10 @@
                                 <p class="card-text text-secondary">@v.category?.Name</p>
                                 <p class="card-text text-muted mb-1">@v.Color</p>
                                 <div class="mt-auto">
-                                    <button class="btn add-to-cart-btn w-100" type="button">
+                                    <a href="#" onclick="addToCart(@v.Id,event)" 
+                                    class="btn add-to-cart-btn w-100" type="button">
                                         <i class="bi bi-cart me-1"></i> Add to Cart
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -43,9 +44,39 @@
         }
     </div>
 </div>
+<div id="cart-message" class="alert alert-success text-center d-none position-fixed top-0 start-50 translate-middle-x mt-3"
+     style="z-index: 9999; width: fit-content; padding: 10px 20px;">
+    Product added to cart!
+</div>
 
 <a asp-action="Create"
    class="btn btn-success position-fixed d-flex justify-content-center align-items-center shadow"
    style="width: 60px; height: 60px; border-radius: 50%; bottom: 40px; right: 40px; z-index: 1050; font-size: 24px;">
     <i class="bi bi-plus"></i>
 </a>
+<script>
+    function addToCart(productId, event) {
+        event.preventDefault(); 
+
+        fetch(`/Order/AddToCard/${productId}`)
+            .then(response => {
+                if (response.ok) {
+                    showCartMessage();
+                } else {
+                    alert("Something went wrong!");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+
+    function showCartMessage() {
+        const messageBox = document.getElementById('cart-message');
+        messageBox.classList.remove('d-none');
+
+        setTimeout(() => {
+            messageBox.classList.add('d-none');
+        }, 2000); 
+    }
+</script>

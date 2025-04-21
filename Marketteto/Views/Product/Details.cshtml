@@ -33,9 +33,10 @@
                     </div>
 
                     <div class="mt-auto d-flex gap-2 flex-wrap">
-                        <button class="btn btn-success flex-grow-1" type="button">
+                        <a asp-controller="Order" asp-action="AddToCard" asp-route-id="@Model.Id" 
+                        class="btn btn-success flex-grow-1" type="button">
                             <i class="bi bi-cart me-1"></i> Add to Cart
-                        </button>
+                        </a>
 
                         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">
                             <i class="bi bi-pencil me-1"></i> Edit

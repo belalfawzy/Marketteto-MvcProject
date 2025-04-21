@@ -31,6 +31,21 @@
                     <form asp-action="Index" asp-controller="Product" class="form-inline" style="padding-right=30px">
                         <input name="SearchTerm" type="text" class="form-control" placeholder="Search..."/></form>
                     <button asp-action="Index" type="submit" class="btn btn-outline-success"> <i class="fas fa-regular fa-search"></i></button>
+                    <ul class="navbar-nav">
+                        @await Component.InvokeAsync("ShoppingCartSummary")
+                    </ul>
+                    <div class="dropdown">
+                        <button class="btn btn-ouline-success dropdown-toggle" id="profile-btn" data-bs-toggle="dropdown" aria-labelledby="profile-btn">
+                            <i class="fas fa-person"></i> Hello,...
+                        </button>
+                        <ul class="dropdown-menu" aria-labledby="profile-btn">
+                            <li>
+                                <a class =dropdown-item asp-action="ListAllOrders" asp-controller="Order">
+                                <i class="fas fa-regular fa-list-check"></i> Orders  
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>

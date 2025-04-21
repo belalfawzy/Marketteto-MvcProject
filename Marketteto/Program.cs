@@ -1,3 +1,4 @@
+using Marketteto.Data.Card;
 using Marketteto.Data.Services;
 using Marketteto.Models;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,11 @@ namespace Marketteto
     options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=.;Initial Catalog=MarkettetoDB;Integrated Security=True;Pooling=False;Encrypt=True;Trust Server Certificate=True")));
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddScoped<ShoppingCard>(x => ShoppingCard.GetCard(x));
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -28,6 +34,8 @@ namespace Marketteto
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 

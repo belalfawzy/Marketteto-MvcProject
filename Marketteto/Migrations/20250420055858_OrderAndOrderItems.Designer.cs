@@ -3,6 +3,7 @@ using Marketteto.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Marketteto.Migrations
 {
     [DbContext(typeof(MarkettetoDbContext))]
-    partial class MarkettetoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250420055858_OrderAndOrderItems")]
+    partial class OrderAndOrderItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,31 +127,6 @@ namespace Marketteto.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Marketteto.Models.ShoppingCardItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShoppingCardId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("productId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("productId");
-
-                    b.ToTable("shoppingCardItems");
-                });
-
             modelBuilder.Entity("Marketteto.Models.OrderItem", b =>
                 {
                     b.HasOne("Marketteto.Models.Order", "Order")
@@ -177,17 +155,6 @@ namespace Marketteto.Migrations
                         .IsRequired();
 
                     b.Navigation("category");
-                });
-
-            modelBuilder.Entity("Marketteto.Models.ShoppingCardItem", b =>
-                {
-                    b.HasOne("Marketteto.Models.Product", "product")
-                        .WithMany()
-                        .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("Marketteto.Models.Category", b =>
