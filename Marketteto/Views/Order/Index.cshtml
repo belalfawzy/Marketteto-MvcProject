@@ -71,13 +71,53 @@
                 Total: @Model.Sum(i => i.product.Price * i.Amount) EGP
             </div>
 
-            <div class="text-center w-100 mt-4">
+            @* <div class="text-center w-100 mt-4">
                 <a asp-action="CompleteOrder" asp-controller="Order"
                    class="btn btn-lg btn-primary px-5 py-3 rounded-pill d-inline-flex align-items-center gap-2 fw-semibold shadow">
                     <span class="fs-5">Proceed to Checkout</span>
                     <i class="bi bi-bag-check-fill fs-4"></i>
                 </a>
+            </div> *@
+            <div class="container mt-5">
+                <div id="paypal-button" style="min-height: 60px;"></div>
             </div>
+
         </div>
     }
 </div>
+@section Scripts{
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <script>
+        var _total = @Html.Raw(ViewBag.Total);
+        paypal.Button.render({
+            env:'sandbox',
+            client:{
+                        sandbox:'AeGfM4Nu5odd003ms814BcmbeR8fAAuzSZn9LivdFPOkRKHluCde2EmIlSdhWXpm1f2Y9rl_ecGyJe5C'
+            },
+            locale:'en_US',
+            style:{
+                color:'gold',
+                size:'small',
+                shape:'pill'
+            },
+            commit: true,
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions:[{
+                        amount:{
+                            total:_total,
+                            currency:'USD'
+                        }
+                    }]
+                })
+            },
+            onAuthorize: function (data,actions) {
+                return actions.payment.execute().then(function(){
+                    var url = @Url.Action("CompleteOrder","Order",new {});
+                    window.location.href= url;
+                })
+            }
+
+        },"#paypal-button")
+    </script>
+}
