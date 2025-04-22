@@ -1,4 +1,5 @@
-﻿using Marketteto.Data.Services;
+﻿using Marketteto.Data.Card;
+using Marketteto.Data.Services;
 using Marketteto.Data.StaticMember;
 using Marketteto.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -14,10 +15,12 @@ namespace Marketteto.Controllers
     {
         private readonly IProductService _service;
         private readonly ICategoryService _Categoryservice;
-        public ProductController(IProductService service, ICategoryService categoryservice)
+        private readonly ShoppingCard _shoppingCard;
+        public ProductController(IProductService service, ICategoryService categoryservice, ShoppingCard shoppingCard)
         {
             _service = service;
             _Categoryservice = categoryservice;
+            _shoppingCard = shoppingCard;
         }
         [AllowAnonymous]
         public async Task<IActionResult> Index(string SearchTerm)
@@ -27,6 +30,9 @@ namespace Marketteto.Controllers
             {
                 res = res.Where(x => x.Name.Contains(SearchTerm)).ToList();
             }
+            var cartItems = _shoppingCard.GetShoppingCardItems();
+            var cartQuantities = cartItems.ToDictionary(i => i.product.Id, i => i.Amount);
+            ViewBag.CartQuantities = cartQuantities;
             return View(res);
         }
         [AllowAnonymous]

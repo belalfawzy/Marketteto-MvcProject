@@ -52,9 +52,13 @@ namespace Marketteto.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var items = _shoppingCard.GetShoppingCardItems();
-            await _orderService.StoreOrdersAsync(items,userId);
+            await _orderService.StoreOrdersAsync(items, userId);
             _shoppingCard.ClearShoppingCard();
             return View("CompleteOrder");
+        }
+        public IActionResult Summary()
+        {
+            return ViewComponent("ShoppingCartSummary");
         }
     }
 }

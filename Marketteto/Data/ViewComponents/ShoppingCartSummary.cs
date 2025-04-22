@@ -10,7 +10,7 @@ namespace Marketteto.Data.ViewComponents
         {
             _card = card;
         }
-        public IViewComponentResult Invoke()
+        public  IViewComponentResult Invoke()
         {
             var res = _card.GetShoppingCardItems();
             ViewBag.Total = _card.GetShoppingCardTotal();
