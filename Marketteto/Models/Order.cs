@@ -10,6 +10,7 @@ namespace Marketteto.Models
         }
         public int Id { get; set; }
         public string UserId { get; set; }
+        public User appUser { get; set; }
         public List<OrderItem> OrderItems { get; set; }
     }
 }

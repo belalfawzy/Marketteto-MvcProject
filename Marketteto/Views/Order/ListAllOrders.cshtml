@@ -11,7 +11,10 @@
                     <th>Order Id</th>
                     <th>Items</th>
                     <th>Total</th>
-                    <th>User</th>
+                    @if (User.IsInRole("admin") && User.Identity.IsAuthenticated)
+                    {
+                        <th>User</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -21,15 +24,18 @@
                         <td class="align-middle">@item.Id</td>
                         <td class="algin-middle">
                             <ul style="list-style-type:none">
-                            @foreach(var sub in item.OrderItems)
-                            {
-                                <li>@sub.Product.Name</li>
-                                <li>@sub.Amount - @sub.TotalPrice EGP</li>
-                            }
+                                @foreach(var sub in item.OrderItems)
+                                {
+                                    <li>@sub.Product.Name</li>
+                                    <li>@sub.Amount - @sub.TotalPrice EGP</li>
+                                }
                             </ul>
                         </td>
                         <td class="align-middle"> @item.OrderItems.Select(x=>x.TotalPrice * x.Amount).Sum() EGP</td>
-                        <td> - </td>
+                        @if (User.IsInRole("admin") && User.Identity.IsAuthenticated)
+                        {
+                            <td> @item.appUser.FullName </td>
+                        }
                     </tr>
                 }
             </tbody>

@@ -1,10 +1,13 @@
 ﻿using Marketteto.Data.Services;
+using Marketteto.Data.StaticMember;
 using Marketteto.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Marketteto.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _service;

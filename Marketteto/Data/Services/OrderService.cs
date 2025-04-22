@@ -10,10 +10,17 @@ namespace Marketteto.Data.Services
         {
             _context = context;
         }
-        public async Task<List<Order>> GetOrderByUserIdAsync(string userId)
-            => await _context.Orders.Include(i => i.OrderItems)
-            .ThenInclude(i => i.Product)
-            .Where(i => i.UserId == userId).ToListAsync();
+        public async Task<List<Order>> GetOrderAndRoleByUserIdAsync(string userId, string role)
+        {
+            var order = await _context.Orders.Include(i => i.OrderItems)
+            .ThenInclude(i => i.Product).Include(i=>i.appUser)
+            .ToListAsync();
+            if (role != "Admin")
+            {
+                order = order.Where(i => i.UserId == userId).ToList();
+            }
+            return order;
+        }
 
         public async Task StoreOrdersAsync(List<ShoppingCardItem> items, string userId)
         {

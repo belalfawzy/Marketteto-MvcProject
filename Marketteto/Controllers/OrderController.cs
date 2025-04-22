@@ -1,6 +1,7 @@
 ﻿using Marketteto.Data.Card;
 using Marketteto.Data.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Marketteto.Controllers
 {
@@ -18,7 +19,9 @@ namespace Marketteto.Controllers
         }
         public async Task<IActionResult> ListAllOrders()
         {
-            var order = await _orderService.GetOrderByUserIdAsync("");
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier), 
+                roleId = User.FindFirstValue(ClaimTypes.Role);
+            var order = await _orderService.GetOrderAndRoleByUserIdAsync(userId,roleId);
             return View(order);
         }
         public IActionResult Index()
@@ -47,8 +50,9 @@ namespace Marketteto.Controllers
         }
         public async Task<IActionResult> CompleteOrder()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var items = _shoppingCard.GetShoppingCardItems();
-            await _orderService.StoreOrdersAsync(items,"");
+            await _orderService.StoreOrdersAsync(items,userId);
             _shoppingCard.ClearShoppingCard();
             return View("CompleteOrder");
         }

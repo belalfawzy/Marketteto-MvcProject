@@ -1,8 +1,23 @@
-﻿<div class="row">
-    <div class="col-md-6 offset-3" alert alert-success text-center>
-        <h3>Orders Complete Successfully!!!!</h3>
-        <a asp-controller="Product" asp-action="Index" class="btn btn-ouline-info">
-               Go To Products <i class="fas fa-regular fa refresh"></i>
-        </a>
+﻿@{
+    ViewData["Title"] = "Order Completed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-success text-center py-5 px-4 shadow rounded-4">
+                <div class="mb-4">
+                    <i class="bi bi-bag-check-fill fs-1 text-success"></i>
+                </div>
+                <h2 class="mb-3">Order Completed Successfully!</h2>
+                <p class="lead text-muted mb-4">
+                    Thank you for your purchase. Your order has been placed and is being processed.
+                </p>
+                <a asp-controller="Product" asp-action="Index" class="btn btn-outline-success btn-lg px-4">
+                    <i class="bi bi-arrow-left-circle me-2"></i> Back to Products
+                </a>
+            </div>
+        </div>
     </div>
 </div>

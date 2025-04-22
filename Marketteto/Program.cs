@@ -1,7 +1,11 @@
 using Marketteto.Data.Card;
+using Marketteto.Data.Seed;
 using Marketteto.Data.Services;
 using Marketteto.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Marketteto
@@ -24,6 +28,10 @@ namespace Marketteto
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<MarkettetoDbContext>();
+            builder.Services.AddMemoryCache();
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -37,7 +45,11 @@ namespace Marketteto
 
             app.UseSession();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
+            AppDbInitializer.SeedUserAndRolesAsync(app).Wait();
 
             app.MapControllerRoute(
                 name: "default",

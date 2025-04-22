@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 
 namespace Marketteto.Models
 {
-    public class MarkettetoDbContext : DbContext
+    public class MarkettetoDbContext :IdentityDbContext<User>
     {
         public MarkettetoDbContext(DbContextOptions<MarkettetoDbContext> options)
             : base(options)
