@@ -56,9 +56,6 @@ namespace Marketteto.Controllers
             _shoppingCard.ClearShoppingCard();
             return View("CompleteOrder");
         }
-        public IActionResult Summary()
-        {
-            return ViewComponent("ShoppingCartSummary");
-        }
+        
     }
 }
